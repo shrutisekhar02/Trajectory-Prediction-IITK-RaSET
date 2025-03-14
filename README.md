@@ -16,9 +16,32 @@ In this project, we take an innovative approach by leveraging Recurrent Neural N
 To further refine our predictions, we implemented a local attention mechanism. While LSTMs process sequential data, they treat all time steps equally, which is suboptimal for trajectory prediction. In reality, recent data points (closer to the prediction moment) have a stronger influence on the trajectory than older ones.
  
 
-## Dataset
-The dataset consists of .mat files (imu.mat and gps.mat) that were generated using a  [MATLAB-based toolbox](https://github.com/saeedmozafari/IMU_Magnetometer_GPS_Trajectory_Generator) for simulating rocket flight sensor data.
+## Dataset Generation 
+To generate data for multiple runs, you need to execute:  
 
+```bash
+python gnss-ins-sim/dataset_optimised.py
+```
 
+This script processes the IMU and GPS data, creating training datasets. It extracts 5-second time windows from the sensor data to ensure sufficient historical context for trajectory prediction.
 
+## Model Training
+The LSTM model is trained using the Jupyter Notebook:
+```bash
+lstm_trajectory.ipynb
+```
 
+This notebook loads the generated dataset, trains the LSTM model, and evaluates its performance.
+
+## Project Structure
+
+```bash
+Trajectory-Prediction-IITK-RaSET/
+│── gnss-ins-sim/                # Folder containing dataset generation scripts
+│   ├── dataset_optimised.py     # Generates dataset for multiple runs
+│── lstm_trajectory.ipynb        # Jupyter Notebook for training the model
+│── X.npy                        # Processed input data
+│── y.npy                        # Processed target data
+│── README.md                    # Project documentation
+│── .gitignore                   # Git ignore file
+```
